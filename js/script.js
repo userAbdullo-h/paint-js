@@ -1,6 +1,7 @@
 const canvas = document.querySelector('canvas'),
 	toolBtns = document.querySelectorAll('.tool'),
-	fillColor = document.querySelector('#fill-color')
+	fillColor = document.querySelector('#fill-color'),
+	sizeSlider = document.querySelector('#size-slider')
 
 let ctx = canvas.getContext('2d'),
 	isDrawing = false,
@@ -74,6 +75,8 @@ const drawing = e => {
 			break;
 	}
 }
+
+sizeSlider.addEventListener('change', () => brushWidth = sizeSlider.value)
 
 canvas.addEventListener('mousedown', startDraw)
 canvas.addEventListener('mousemove', drawing)
