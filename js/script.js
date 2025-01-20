@@ -1,5 +1,6 @@
 const canvas = document.querySelector('canvas'),
-	toolBtns = document.querySelectorAll('.tool')
+	toolBtns = document.querySelectorAll('.tool'),
+	fillColor = document.querySelector('#fill-color')
 
 let ctx = canvas.getContext('2d'),
 	isDrawing = false,
@@ -22,7 +23,7 @@ const startDraw = e => {
 	ctx.beginPath()
 	ctx.lineWidth = brushWidth
 	snapShot = ctx.getImageData(0, 0, canvas.width, canvas.height)
-	console.log(snapShot);
+	// console.log(snapShot);
 	
 } 
 
@@ -31,7 +32,15 @@ const stopDraw = () =>{
 }
 
 const drawRectangle = e => {
-	ctx.strokeRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY)
+	fillColor.checked ? ctx.fillRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY) : ctx.strokeRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY)
+}
+
+const drawCircle = e => {
+	ctx.beginPath()
+	const radius = Math.sqrt(Math.pow(prevMouseX - e.offsetX, 2)) + Math.pow(prevMouseY - e.offsetY, 2)
+	ctx.arc(prevMouseX, prevMouseY, radius, 0, 2* Math.PI)
+	fillColor.checked ? ctx.fill() : ctx.stroke()
+	ctx.stroke()
 }
 
 const drawing = e => {
@@ -46,6 +55,9 @@ const drawing = e => {
 		case 'rectangle':
 			drawRectangle(e)
 			break
+		case 'circle':
+			drawCircle(e)
+			break
 		default:
 			break;
 	}
@@ -59,8 +71,6 @@ toolBtns.forEach(btn => {
 	btn.addEventListener('click', () => {
 		document.querySelector('.options .active').classList.remove('active')
 		btn.classList.add('active')
-		selectedTool = btn.id
-		console.log(selectedTool);
-		
+		selectedTool = btn.id		
 	})
 })
