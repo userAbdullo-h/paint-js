@@ -10,12 +10,11 @@ body {
 	align-items: center;
 	justify-content: center;
 	min-height: 100vh;
-	background: rgb(2, 0, 36);
+	background: #56AB2F;
 	background: linear-gradient(
 		90deg,
-		rgba(2, 0, 36, 1) 0%,
-		rgba(9, 9, 121, 1) 35%,
-		rgba(0, 212, 255, 1) 100%
+		#56AB2F,
+		#A8E063
 	);
 }
 .container {
@@ -51,6 +50,7 @@ section {
 }
 .option:is(:hover, .active) img {
 	filter: invert(17%) sepia(90%) saturate(3000%) hue-rotate(900deg) brightness(100%) contrast(100%);
+	-webkit-filter: invert(17%) sepia(90%) saturate(3000%) hue-rotate(900deg) brightness(100%) contrast(100%);
 }
 .option :where(span, label) {
 	color: #5a6168;
@@ -58,7 +58,7 @@ section {
 	padding-left: 10px;
 }
 .option:is(:hover, .active) :where(span, label) {
-	color: #4a98f7;
+	color: #56AB2F;
 }
 .option #fill-color {
 	cursor: pointer;
@@ -66,7 +66,7 @@ section {
 	width: 14px;
 }
 #fill-color:checked ~ label {
-	color: #4a98f7;
+	color: #56AB2F;
 }
 .option #size-slider {
 	width: 100%;
@@ -141,8 +141,8 @@ section {
 	background: #6c757d;
 }
 .buttons .save-img {
-	background: #4a98f7;
-	border: 1px solid #4a98f7;
+	background: #56AB2F;
+	border: 1px solid #55b32a;
 }
 .drawing-board {
 	flex: 1;
@@ -152,7 +152,7 @@ section {
 	width: 100%;
 	height: 100%;
 }
-
+/* 
 footer {
 	display: block;
 	unicode-bidi: isolate;
@@ -161,4 +161,4 @@ footer {
  color: #fff;
  padding: 15px 0;
  font-size: 14px;
-}
+} */
