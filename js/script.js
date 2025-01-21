@@ -3,7 +3,9 @@ const canvas = document.querySelector('canvas'),
 	fillColor = document.querySelector('#fill-color'),
 	sizeSlider = document.querySelector('#size-slider'),
 	colorBtns = document.querySelectorAll('.colors .option'),
-	colorPicker = document.querySelector('#color-picker')
+	colorPicker = document.querySelector('#color-picker'),
+	clearCanvasBtn = document.querySelector('.clear-canvas'),
+	saveImgBtn = document.querySelector('.save-img')
 
 let ctx = canvas.getContext('2d'),
 	isDrawing = false,
@@ -15,9 +17,16 @@ let ctx = canvas.getContext('2d'),
 	snapShot
 
 
+const setCanvasBackground = () => {
+	ctx.fillStyle = '#fff'
+	ctx.fillRect(0,0, canvas.width, canvas.height)
+	ctx.fillStyle = selectedColor
+}
+
 window.addEventListener('load', () => {
 	canvas.width = canvas.offsetWidth
 	canvas.height = canvas.offsetHeight
+	setCanvasBackground()
 })
 
 const startDraw = e => {
@@ -37,6 +46,12 @@ const stopDraw = () =>{
 	isDrawing = false
 }
 
+const drawRightBrush = e => {
+	ctx.beginPath()
+	ctx.moveTo(prevMouseX, prevMouseY)
+	ctx.lineTo(e.offsetX, e.offsetY)
+	ctx.stroke()
+}
 const drawRectangle = e => {
 	fillColor.checked ? ctx.fillRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY) : ctx.strokeRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY)
 }
@@ -72,6 +87,9 @@ const drawing = e => {
 			ctx.lineTo(e.offsetX, e.offsetY)
 			ctx.stroke()
 			break;
+		case 'brushRight':
+			drawRightBrush(e)
+			break
 		case 'rectangle':
 			drawRectangle(e)
 			break
@@ -104,15 +122,6 @@ colorBtns.forEach(btn => {
 	)
 })
 
-colorPicker.addEventListener('change', () => {
-	colorPicker.parentElement.style.background = colorPicker.value
-	colorPicker.parentElement.click()
-})
-
-canvas.addEventListener('mousedown', startDraw)
-canvas.addEventListener('mousemove', drawing)
-canvas.addEventListener('mouseup', stopDraw)
-
 toolBtns.forEach(btn => {
 	btn.addEventListener('click', () => {
 		document.querySelector('.options .active').classList.remove('active')
@@ -120,3 +129,24 @@ toolBtns.forEach(btn => {
 		selectedTool = btn.id		
 	})
 })
+
+colorPicker.addEventListener('change', () => {
+	colorPicker.parentElement.style.background = colorPicker.value
+	colorPicker.parentElement.click()
+})
+
+clearCanvasBtn.addEventListener('click', () => {
+	ctx.clearRect(0, 0, canvas.width, canvas.height)
+	setCanvasBackground()
+})
+
+saveImgBtn.addEventListener('click', () => {
+	const link = document.createElement('a')
+	link.download = `userAbdullo-paint${Date.now()}.jpg`
+	link.href = canvas.toDataURL()
+	link.click()
+})
+
+canvas.addEventListener('mousedown', startDraw)
+canvas.addEventListener('mousemove', drawing)
+canvas.addEventListener('mouseup', stopDraw)
